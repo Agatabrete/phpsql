@@ -22,7 +22,7 @@
 
             
 
-                $muuda_paring="UPDATE sport2025 SET fullname= 'Imre Tardi', email='uuss@gmail.com', age='11', gender='apach', category='laulmine' WHERE id = 1";
+                // $muuda_paring="UPDATE sport2025 SET fullname= 'Imre Tardi', email='uuss@gmail.com', age='11', gender='apach', category='laulmine' WHERE id = 1";
             }
             
             if(isset($_GET["salvesta_muudatus"]) && isset($_GET["id"])) {
@@ -125,6 +125,28 @@
 
             }
 
+            // Leheküljenumber
+            //uudiseid ühel lehel
+            $uudiseid_lehel = 50;
+
+            $uudiseid_kokku_paring = "SELECT COUNT('id') FROM sport2025";
+            $lehtede_vastus = mysqli_query($yhendus, $uudiseid_kokku_paring);
+            $uudiseid_kokku = mysqli_fetch_array($lehtede_vastus);
+            $lehti_kokku = $uudiseid_kokku[0];
+            $lehti_kokku = ceil($lehti_kokku/$uudiseid_lehel);
+            //var_dump($lehti_kokku);
+            echo 'Lehekülgi kokku: '.$lehti_kokku.'<br>';
+            echo 'Uudiseid lehel: '.$uudiseid_lehel.'<br>';
+
+            //kasutaja valik
+            if (isset($_GET['page'])) {
+	            $leht = $_GET['page'];
+            } else {
+	            $leht = 1;
+            }
+            //millest näitamist alustatakse
+            $start = ($leht-1)*$uudiseid_lehel;
+            
 
             if  (isset($_GET["otsi"]) && !empty($_GET["otsi"])) {
                 $s = $_GET["otsi"];
@@ -132,7 +154,7 @@
                 echo "Otsing: ".$s;
                 $paring = 'SELECT * FROM sport2025 WHERE '.$cat.' LIKE "%'.$s.'%"';
             } else {
-                $paring = "SELECT * FROM sport2025 LIMIT 50";
+                $paring = "SELECT * FROM sport2025 LIMIT $start, $uudiseid_lehel";
             }
 
             
@@ -151,6 +173,27 @@
                 echo "<td><a class='btn btn-success' href='?muuda&id=".$rida['id']."'>Muuda</a></td>";
                 echo "<td><a class='btn btn-danger' href='?kustuta&id=".$rida['id']."'>Kustuta</a></td>";
                 echo "</tr>";
+            }
+
+
+            //kuvame lingid
+            $eelmine = $leht - 1;
+            $jargmine = $leht + 1;
+            if ($leht>1) {
+                echo "<a class='btn btn-primary m-1' href='?page=$eelmine'>Eelmine</a> ";
+            }
+            if ($lehti_kokku >= 1) {
+                for ($i=1; $i<=$lehti_kokku ; $i++) { 
+                    if ($i==$leht) {
+                        echo "<b><a class='btn btn-primary m-1' href='?page=$i'>$i</a></b> ";
+                    } else {
+                        echo "<a class='btn btn-primary m-1' href='?page=$i'>$i</a> ";
+                    }
+                    
+                }
+            }
+            if ($leht<$lehti_kokku) {
+            echo "<a class='btn btn-primary m-1' href='?page=$jargmine'>Järgmine</a> ";
             }
 
             
