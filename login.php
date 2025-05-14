@@ -1,3 +1,21 @@
+<?php
+	session_start();
+	if (isset($_SESSION['tuvastamine'])) {
+	  header('Location: /admin');
+	  exit();
+	  } 
+    echo password_hash('admin', PASSWORD_DEFAULT);
+  if (!empty($_POST['user']) && !empty($_POST['pass'])) {
+  $login = $_POST['user'];
+  $pass = $_POST['pass'];
+    if ($login == 'admin' && $pass == 'admin') {
+      $_SESSION['tuvastamine'] = 'misiganes';
+      header('Location: /phpsql/admin');
+      exit();
+    }
+  }
+?>
+
 <!DOCTYPE html>
 <html lang="et">
 <head>
@@ -34,16 +52,16 @@
       <div class="col-lg-8">
         <div class="card-body py-5 px-md-5">
 
-          <form>
+          <form method="post">
             <!-- Email input -->
             <div data-mdb-input-init class="form-outline mb-4">
-              <input type="email" id="form2Example1" class="form-control" />
-              <label class="form-label" for="form2Example1">Email address</label>
+              <input name="user" type="text" id="form2Example1" class="form-control" />
+              <label class="form-label" for="form2Example1">kasutajanimi </label>
             </div>
 
             <!-- Password input -->
             <div data-mdb-input-init class="form-outline mb-4">
-              <input type="password" id="form2Example2" class="form-control" />
+              <input name="pass" type="password" id="form2Example2" class="form-control" />
               <label class="form-label" for="form2Example2">Password</label>
             </div>
 
@@ -52,7 +70,7 @@
               <div class="col d-flex justify-content-center">
                 <!-- Checkbox -->
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="" id="form2Example31" checked />
+                  <input name="rem" class="form-check-input" type="checkbox" value="" id="form2Example31" checked />
                   <label class="form-check-label" for="form2Example31"> Remember me </label>
                 </div>
               </div>
@@ -64,7 +82,7 @@
             </div>
 
             <!-- Submit button -->
-            <button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block mb-4">Sign in</button>
+            <input type="submit" value="logi sisse" class="btn btn-primary btn-block mb-4">
 
           </form>
 

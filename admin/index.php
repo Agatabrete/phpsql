@@ -1,4 +1,13 @@
-<?php include("config.php"); ?>
+
+<?php
+	session_start();
+	if (!isset($_SESSION['tuvastamine'])) {
+	  header('Location: ../login.php');
+	  exit();
+	  } 
+
+    //   var_dump($_SESSION['tuvastamine']);
+?>
 <!DOCTYPE html>
 <html lang="et">
 <head>
@@ -7,6 +16,7 @@
     <title>Admin area</title>
 </head>
 <body>
-    
+    <a href="../logout.php">Logi välja</a>
+    <h1>Salajane</h1>
 </body>
 </html>
