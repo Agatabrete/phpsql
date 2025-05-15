@@ -1,14 +1,25 @@
 <?php
+  include("phpmysql/config.php");
 	session_start();
 	if (isset($_SESSION['tuvastamine'])) {
 	  header('Location: /admin');
 	  exit();
 	  } 
-    echo password_hash('admin', PASSWORD_DEFAULT);
+    // echo password_hash('admin', PASSWORD_DEFAULT);
   if (!empty($_POST['user']) && !empty($_POST['pass'])) {
   $login = $_POST['user'];
   $pass = $_POST['pass'];
-    if ($login == 'admin' && $pass == 'admin') {
+
+  $paring = "SELECT * FROM users";
+  $saada_paring = mysqli_query($yhendus, $paring);
+  $rida = mysqli_fetch_assoc($saada_paring);
+  // var_dump($rida);
+  // $s = $rida["Pass"];
+  $u = $rida["user"];
+  $s = $rida["pass"];
+
+    if ($login == $u && password_verify($pass, $s)) {
+      echo "Tere admin";
       $_SESSION['tuvastamine'] = 'misiganes';
       header('Location: /phpsql/admin');
       exit();
