@@ -15,7 +15,6 @@ function requireAuth() {
         exit();
     }
 }
-
 function requireAdmin() {
     requireAuth();
     if (!isAdmin()) {

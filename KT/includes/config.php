@@ -1,7 +1,7 @@
 <?php
 $host = 'localhost';
 $db   = 'hotel_booking';
-$user = 'root';
+$user = 'ajopiselg';
 $pass = '';
 $charset = 'utf8mb4';
 

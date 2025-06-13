@@ -11,10 +11,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['is_admin'] = $user['is_admin'];
         
-        // "Remember me" functionality (Criteria 10)
         if (isset($_POST['remember_me'])) {
             $token = bin2hex(random_bytes(32));
-            $expiry = time() + 4 * 60 * 60; // 4 hours
+            $expiry = time() + 4 * 60 * 60; 
             
             setcookie('remember_token', $token, $expiry, '/');
             

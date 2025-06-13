@@ -5,12 +5,10 @@ require_once '../includes/auth.php';
 $checkIn = $_GET['check_in'] ?? date('Y-m-d');
 $checkOut = $_GET['check_out'] ?? date('Y-m-d', strtotime('+1 day'));
 
-// Server-side validation (Criteria 13)
 if (!strtotime($checkIn) || !strtotime($checkOut) || $checkIn >= $checkOut) {
     $errors[] = "Invalid date selection";
 }
 
-// Get available rooms
 $stmt = $pdo->prepare("
     SELECT r.* 
     FROM rooms r

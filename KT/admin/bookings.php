@@ -3,7 +3,6 @@ require_once '../../includes/config.php';
 require_once '../../includes/auth.php';
 requireAdmin();
 
-// Get all bookings
 $stmt = $pdo->query("
     SELECT b.*, u.first_name, u.last_name, r.room_number 
     FROM bookings b
@@ -16,7 +15,6 @@ $bookings = $stmt->fetchAll();
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
     switch ($_POST['action']) {
         case 'update':
-            // Update booking (Criteria 22)
             $stmt = $pdo->prepare("UPDATE bookings SET check_in_date = ?, check_out_date = ?, total_price = ?, status = ? WHERE id = ?");
             $stmt->execute([
                 $_POST['check_in_date'],
@@ -27,7 +25,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             ]);
             break;
         case 'delete':
-            // Delete booking (Criteria 23)
             $stmt = $pdo->prepare("DELETE FROM bookings WHERE id = ?");
             $stmt->execute([$_POST['booking_id']]);
             break;
